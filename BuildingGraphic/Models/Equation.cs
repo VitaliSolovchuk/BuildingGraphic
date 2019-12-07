@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
 
 namespace BuildingGraphic.Models
 {
     public class Equation
     {
-        float CoefficientZeroDegrees { get; set; }
-        float CoefficientFirstDegrees { get; set; }
-        float CoefficientSecondDegrees { get; set; }
+        public float CoefficientZeroDegrees { get; set; }
+        public float CoefficientFirstDegrees { get; set; }
+        public float CoefficientSecondDegrees { get; set; }
     }
 }
