@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using BuildingGraphic.Models;
 using System.Web.Mvc;
 
 namespace BuildingGraphic.Controllers
@@ -11,6 +8,13 @@ namespace BuildingGraphic.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Index (EquationDTO equationDTO)
+        {
+            string stringa = "text mesage";
+            return PartialView(stringa);
         }
 
         public ActionResult About()
