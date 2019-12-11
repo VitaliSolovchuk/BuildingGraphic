@@ -127,6 +127,7 @@
     <Compile Include="Models\Equation.cs" />
     <Compile Include="Models\EquationDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MathematicaServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
