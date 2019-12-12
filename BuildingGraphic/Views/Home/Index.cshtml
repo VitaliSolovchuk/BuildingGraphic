@@ -1,88 +1,151 @@
-﻿@{
+﻿@model BuildingGraphic.Models.EquationDTO
+
+@{
     ViewBag.Title = "Home Page";
 
 }
 
-    
 
-<div>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-        tr{
-        }
-
-        td{
-            border: 1px solid black;
-            padding: 2px;
-        }
-        td#2{
-            padding: 1px;
-        }
-        td#highlight{
-            border: 2px solid black;
-        }
-
-
-    </style>
-
-    <h1>Красивое приложение </h1>
-
-    @using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "graphic" }))
-    {
-
-    <table>
-        <tr>
-            <td>Function:</td>
-            <td>y=</td>
-            <td id="highlight">@Html.TextBox("CoefficientSecondDegrees")</td>
-            <td>x^2 +</td>
-            <td id="highlight">@Html.TextBox("CoefficientFirstDegrees")</td>
-            <td>x +</td>
-            <td id="highlight">@Html.TextBox("CoefficientZeroDegrees")</td>
-        </tr>
-        <tr>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-            <td id="2">&nbsp;</td>
-
-        </tr>
-        <tr id="1">
-            <td>Step:</td>
-            <td id="highlight">@Html.TextBox("Step")</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr id=" 2">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-
-        </tr>
-        <tr id=" 1">
-            <td>From:</td>
-            <td id="highlight">@Html.TextBox("StartPosition")</td>
-            <td>to</td>
-            <td id="highlight">@Html.TextBox("StopPosition")</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-    </table>
-    <input type="submit" value="Plot" />
+<style>
+    table {
+        border-collapse: collapse;
     }
 
-</div>
+    tr {
+    }
+
+    td {
+        border: 1px solid black;
+        padding: 2px;
+    }
+
+        td#2 {
+            padding: 1px;
+        }
+
+        td#highlight {
+            border: 2px solid black;
+        }
+</style>
+
+<h1>Красивое приложение </h1>
+
+@using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "graphic" }))
+{
+    <div class="form-horizontal">
+
+
+        <table>
+            <tr>
+                <td>Function:</td>
+                <td>y=</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CoefficientSecondDegrees)
+                        </div>
+                    </div>
+                </td>
+                <td>x^2 +</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CoefficientFirstDegrees)
+                            @Html.ValidationMessageFor(model => model.CoefficientFirstDegrees)
+                        </div>
+                    </div>
+                </td>
+                <td>x +</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CoefficientZeroDegrees)
+                            @Html.ValidationMessageFor(model => model.CoefficientZeroDegrees)
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="2">&nbsp;</td>
+                <td id="2">&nbsp;</td>
+                <td id="2">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.ValidationMessageFor(model => model.CoefficientSecondDegrees, "ff", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td id="2">&nbsp;</td>
+                <td id="2">&nbsp;</td>
+                <td id="2">&nbsp;</td>
+                <td id="2">&nbsp;</td>
+
+            </tr>
+            <tr id="1">
+                <td>Step:</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Step, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Step, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr id=" 2">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+            </tr>
+            <tr id=" 1">
+                <td>From:</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.StartPosition, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StartPosition, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>to</td>
+                <td id="highlight">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.StopPosition, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.StopPosition, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Plot" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+    @Html.EditorFor(model => model.CoefficientZeroDegrees)
+    @Html.ValidationMessageFor(model => model.CoefficientZeroDegrees, "ff", new { @class = "text-danger" })
+    <input type="submit" value="Plot" class="btn btn-default" />
+}
+
+
+
+<div id="graphic"></div>
+
 

@@ -5,37 +5,52 @@ namespace BuildingGraphic.Services
 {
     public class MathematicaServices
     {
+        public int amountOfPoints;
+        public float[] ReqestDataX { get; private set; }
+        public float[] ResponseDataY { get; private set; }
         public EquationDTO ProcessedObject { get; private set; }
+
         public MathematicaServices(EquationDTO equationDTO)
         {
             ProcessedObject = equationDTO;
+           
         }
 
-        public float[] GetDataForVisualisation()
+        public void BuildingVisualisation()
         {
-            int amountOfPoints = GetSizeData();
-            float[] responseData = new float[amountOfPoints];
-            
-            int i = 0;
-            float x = ProcessedObject.StartPosition;
-            do {
-                responseData[i] = GetValueEquation(x);
-                x += ProcessedObject.Step;
-                i++;
-            } while (i < amountOfPoints);
-
-            responseData[i] = GetValueEquation(ProcessedObject.StopPosition);
-
-            return responseData;
+            GetSizeData();
+            float[] ResponseDataY = new float[amountOfPoints];
+            float[] ReqestDataX = new float[amountOfPoints];
+            SetDataForVisualisation();
         }
 
-        private int GetSizeData()
+        private void SetDataForVisualisation()
+        {
+            int i = 0;
+            ReqestDataX[i] = ProcessedObject.StartPosition;
+           
+            do {
+                ResponseDataY[i] = GetValueEquation(ReqestDataX[i]);
+                i++;
+                ReqestDataX[i] = ReqestDataX[i - 1] + ProcessedObject.Step;
+            } while (i < amountOfPoints - 1);
+
+            ResponseDataY[i] = GetValueEquation(ProcessedObject.StopPosition);
+        }
+        public bool GetValid()
+        {
+            if (ProcessedObject.StartPosition < ProcessedObject.StopPosition)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void GetSizeData()
         {
             int size;
             size = (int)Math.Ceiling((ProcessedObject.StopPosition - ProcessedObject.StartPosition) / ProcessedObject.Step);
-            return size;
+            amountOfPoints = size;
         }
-
         private float GetValueEquation(float x)
         {
             float y = ProcessedObject.CoefficientSecondDegrees * x * x + ProcessedObject.CoefficientFirstDegrees * x + ProcessedObject.CoefficientZeroDegrees;
