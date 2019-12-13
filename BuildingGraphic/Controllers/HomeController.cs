@@ -24,8 +24,8 @@ namespace BuildingGraphic.Controllers
                 {
                     services.BuildingVisualisation();
                     ViewBag.Message = "☺Valid";
-                    ViewBag.x = services.StrReqestDataX;
 
+                    ViewBag.x = services.StrReqestDataX;
                     ViewBag.y = services.StrResponseDataY;
                     ViewBag.size = services.amountOfPoints;
 
@@ -36,35 +36,21 @@ namespace BuildingGraphic.Controllers
             }
             else
             {
-                ViewBag.Message = "Non Valid";
+                ViewBag.Message = "non Valid";
             }
             return PartialView("ErrorPartialAjax");
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Это очень красивое и практичное что-то";
 
-            return View("input");
-        }
-
-        [HttpPost]
-        public ActionResult About(EquationDTO equationDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                ViewBag.Message = "Valid";
-
-                return RedirectToAction("Contact");
-            }
-            ViewBag.Message = "Non Valid";
-
-            return View("input");
+            return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "contact page.";
 
             return View();
         }
