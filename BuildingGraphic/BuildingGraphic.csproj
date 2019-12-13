@@ -172,9 +172,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IndexPartial.cshtml" />
-    <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Home\ErrorPartialAjax.cshtml" />
-    <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
