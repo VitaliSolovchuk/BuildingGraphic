@@ -8,6 +8,8 @@ namespace BuildingGraphic.Services
         public int amountOfPoints;
         public float[] ReqestDataX { get; private set; }
         public float[] ResponseDataY { get; private set; }
+        public string StrReqestDataX { get; private set; }
+        public string StrResponseDataY { get; private set; }
         public EquationDTO ProcessedObject { get; private set; }
 
         public MathematicaServices(EquationDTO equationDTO)
@@ -19,8 +21,8 @@ namespace BuildingGraphic.Services
         public void BuildingVisualisation()
         {
             GetSizeData();
-            float[] ResponseDataY = new float[amountOfPoints];
-            float[] ReqestDataX = new float[amountOfPoints];
+            ResponseDataY = new float[amountOfPoints];
+            ReqestDataX = new float[amountOfPoints];
             SetDataForVisualisation();
         }
 
@@ -31,11 +33,22 @@ namespace BuildingGraphic.Services
            
             do {
                 ResponseDataY[i] = GetValueEquation(ReqestDataX[i]);
+
+                //Это обязательно прибрать
+                StrReqestDataX = StrReqestDataX + ReqestDataX[i] + ", ";
+                StrResponseDataY = StrResponseDataY + ResponseDataY[i] + ", ";
+
+
                 i++;
                 ReqestDataX[i] = ReqestDataX[i - 1] + ProcessedObject.Step;
+
             } while (i < amountOfPoints - 1);
 
             ResponseDataY[i] = GetValueEquation(ProcessedObject.StopPosition);
+
+            //Это обязательно прибрать
+            StrReqestDataX = StrReqestDataX + ReqestDataX[i];
+            StrResponseDataY = StrResponseDataY + ResponseDataY[i];
         }
         public bool GetValid()
         {
@@ -49,7 +62,7 @@ namespace BuildingGraphic.Services
         {
             int size;
             size = (int)Math.Ceiling((ProcessedObject.StopPosition - ProcessedObject.StartPosition) / ProcessedObject.Step);
-            amountOfPoints = size;
+            amountOfPoints = size + 1;
         }
         private float GetValueEquation(float x)
         {

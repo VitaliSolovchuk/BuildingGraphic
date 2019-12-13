@@ -1,3 +1,29 @@
 ﻿@using BuildingGraphic.Models;
 
 <h1>@ViewBag.Message</h1>
+
+<canvas id="myChart"></canvas>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: [@ViewBag.x],
+        datasets: [{
+            label: 'My dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [@ViewBag.y]
+            }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+
+</script>

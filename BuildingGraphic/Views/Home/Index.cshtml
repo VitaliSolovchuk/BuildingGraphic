@@ -71,7 +71,7 @@
                 <td id="2">
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.ValidationMessageFor(model => model.CoefficientSecondDegrees, "ff", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.CoefficientSecondDegrees, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </td>
@@ -111,8 +111,8 @@
                 <td>From:</td>
                 <td id="highlight">
                     <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.StartPosition, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-10" >
+                            @Html.EditorFor(model => model.StartPosition, new { htmlAttributes = new { @class = "form-control", } })
                             @Html.ValidationMessageFor(model => model.StartPosition, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -139,9 +139,7 @@
         </div>
 
     </div>
-    @Html.EditorFor(model => model.CoefficientZeroDegrees)
-    @Html.ValidationMessageFor(model => model.CoefficientZeroDegrees, "ff", new { @class = "text-danger" })
-    <input type="submit" value="Plot" class="btn btn-default" />
+
 }
 
 

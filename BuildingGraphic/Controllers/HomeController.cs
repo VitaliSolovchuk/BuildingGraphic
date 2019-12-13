@@ -7,9 +7,10 @@ namespace BuildingGraphic.Controllers
     public class HomeController : Controller
     {
         MathematicaServices services;
+
         public ActionResult Index()
         {
-            return View("View");
+            return View();
         }
         
         [HttpPost]
@@ -18,12 +19,16 @@ namespace BuildingGraphic.Controllers
             if (ModelState.IsValid)
             {
                 services = new MathematicaServices(equationDTO);
+
                 if (services.GetValid())
                 {
+                    services.BuildingVisualisation();
                     ViewBag.Message = "☺Valid";
-                    ViewBag.x = services.ReqestDataX;
-                    ViewBag.y = services.ResponseDataY;
+                    ViewBag.x = services.StrReqestDataX;
+
+                    ViewBag.y = services.StrResponseDataY;
                     ViewBag.size = services.amountOfPoints;
+
                     return PartialView("IndexPartial");
                 }
                 ViewBag.Message = "data isn't Valid for Mathematica";
