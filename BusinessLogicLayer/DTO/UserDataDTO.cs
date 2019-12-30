@@ -1,9 +1,8 @@
 ﻿
 
-
-namespace DataAccessLayer.Models
+namespace BusinessLogicLayer.DTO
 {
-    public class UserData
+    public class UserDataDTO
     {
         public int UserDataId { get; set; }
         public int RangeFrom { get; set; }
@@ -12,5 +11,6 @@ namespace DataAccessLayer.Models
         public int CoefficientFirstDegrees { get; set; }
         public int CoefficientZeroDegrees { get; set; }
         public int Step { get; set; }
+        //IList<Point> PointList { get; set; }
     }
 }

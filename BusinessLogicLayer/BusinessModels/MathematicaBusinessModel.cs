@@ -1,22 +1,25 @@
-﻿using System;
-using BuildingGraphic.Models;
+﻿using BusinessLogicLayer.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace BuildingGraphic.Services
+namespace BusinessLogicLayer.BusinessModels
 {
-    public class MathematicaServices
+    class MathematicaBusinessModel
     {
         public int amountOfPoints;
         public float[] ReqestDataX { get; private set; }
         public float[] ResponseDataY { get; private set; }
         public string StrReqestDataX { get; private set; }
         public string StrResponseDataY { get; private set; }
-        public EquationDTO ProcessedObject { get; private set; }
+        public UserDataDTO ProcessedObject { get; private set; }
 
-        public MathematicaServices(EquationDTO equationDTO)
+        public MathematicaBusinessModel(UserDataDTO userDataDTO)
         {
-            ProcessedObject = equationDTO;
-           
+            ProcessedObject = userDataDTO;
+
         }
 
         public void BuildingVisualisation()
@@ -30,9 +33,10 @@ namespace BuildingGraphic.Services
         private void SetDataForVisualisation()
         {
             int i = 0;
-            ReqestDataX[i] = ProcessedObject.StartPosition;
-           
-            do {
+            ReqestDataX[i] = ProcessedObject.RangeFrom;
+
+            do
+            {
                 ResponseDataY[i] = GetValueEquation(ReqestDataX[i]);
 
                 //Это обязательно прибрать
@@ -45,7 +49,7 @@ namespace BuildingGraphic.Services
 
             } while (i < amountOfPoints - 1);
 
-            ResponseDataY[i] = GetValueEquation(ProcessedObject.StopPosition);
+            ResponseDataY[i] = GetValueEquation(ProcessedObject.RangeTo);
 
             //Это обязательно прибрать
             StrReqestDataX = StrReqestDataX + ReqestDataX[i];
@@ -53,7 +57,7 @@ namespace BuildingGraphic.Services
         }
         public bool GetValid()
         {
-            if (ProcessedObject.StartPosition < ProcessedObject.StopPosition)
+            if (ProcessedObject.RangeFrom < ProcessedObject.RangeTo)
             {
                 return true;
             }
@@ -62,7 +66,7 @@ namespace BuildingGraphic.Services
         private void GetSizeData()
         {
             int size;
-            size = (int)Math.Ceiling((ProcessedObject.StopPosition - ProcessedObject.StartPosition) / ProcessedObject.Step);
+            size = (ProcessedObject.RangeTo - ProcessedObject.RangeFrom) / ProcessedObject.Step;
             amountOfPoints = size + 1;
         }
         private float GetValueEquation(float x)
