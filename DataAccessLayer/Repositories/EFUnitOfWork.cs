@@ -1,7 +1,7 @@
-﻿using DataAccessLayer.EntityF;
+﻿using System;
+using DataAccessLayer.EntityF;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
-using System;
 
 namespace DataAccessLayer.Repositories
 {

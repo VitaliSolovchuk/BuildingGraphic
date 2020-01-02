@@ -1,10 +1,10 @@
-﻿using DataAccessLayer.EntityF;
+﻿using System;
+using System.Linq;
+using System.Data.Entity;
+using System.Collections.Generic;
+using DataAccessLayer.EntityF;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 
 
 namespace DataAccessLayer.Repositories
@@ -28,7 +28,7 @@ namespace DataAccessLayer.Repositories
             return db.Points.Find(id);
         }
 
-        public IEnumerable<Point> Find(Func<Point, bool> predicate)
+        public List<Point> Find(Func<Point, bool> predicate)
         {
             return db.Points.Where(predicate).ToList();
         }

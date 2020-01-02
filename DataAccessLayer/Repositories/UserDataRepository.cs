@@ -20,7 +20,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<UserData> GetAll()
         {
-            return db.UserDatas;
+            return db.UserDatas.Include(u => u.PointList);
         }
 
         public UserData Get(int id)
@@ -28,9 +28,9 @@ namespace DataAccessLayer.Repositories
             return db.UserDatas.Find(id);
         }
 
-        public IEnumerable<UserData> Find(Func<UserData, bool> predicate)
+        public List<UserData> Find(Func<UserData, bool> predicate)
         {
-            return db.UserDatas.Where(predicate).ToList();
+            return db.UserDatas.Include(u => u.PointList).Where(predicate).ToList();
         }
 
         public void Create(UserData item)
