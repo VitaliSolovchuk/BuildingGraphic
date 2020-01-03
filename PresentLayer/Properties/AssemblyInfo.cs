@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется следующим образом
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных с этой сборкой.
-[assembly: AssemblyTitle("PresentationLayer")]
+[assembly: AssemblyTitle("PresentLayer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PresentationLayer")]
-[assembly: AssemblyCopyright("© , 2019")]
+[assembly: AssemblyProduct("PresentLayer")]
+[assembly: AssemblyCopyright("© , 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для ID библиотеки типов typelib, если этот проект видим для COM
-[assembly: Guid("13150fd6-243e-4a4f-9baf-f40d1ceabb66")]
+[assembly: Guid("1f08ca07-cd82-4162-b3b0-13d218455661")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

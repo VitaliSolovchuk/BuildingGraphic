@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
-namespace PresentationLayer.Models
+
+namespace PresentLayer.Models
 {
     public class UserDataViewModel
     {
@@ -14,6 +12,5 @@ namespace PresentationLayer.Models
         public int CoefficientFirstDegrees { get; set; }
         public int CoefficientZeroDegrees { get; set; }
         public ICollection<PointViewModel> PointList { get; set; }
-
     }
 }

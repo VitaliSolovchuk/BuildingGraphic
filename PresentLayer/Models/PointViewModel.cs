@@ -1,7 +1,6 @@
 ﻿
 
-
-namespace PresentationLayer.Models
+namespace PresentLayer.Models
 {
     public class PointViewModel
     {

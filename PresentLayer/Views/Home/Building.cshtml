@@ -1,4 +1,4 @@
-﻿@model PresentationLayer.Models.UserDataViewModel
+﻿@model PresentLayer.Models.UserDataViewModel
 
 @{
     ViewBag.Title = "Building";
@@ -56,6 +56,10 @@
 
         <dd>
             @Html.DisplayFor(model => model.CoefficientZeroDegrees)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.PointList)
         </dd>
 
     </dl>

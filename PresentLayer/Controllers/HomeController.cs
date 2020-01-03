@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
-using PresentationLayer.Models;
+using PresentLayer.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace PresentationLayer.Controllers
+namespace PresentLayer.Controllers
 {
     public class HomeController : Controller
     {
@@ -17,7 +17,6 @@ namespace PresentationLayer.Controllers
 
         public ActionResult Index()
         {
-            //Отображение формочки
             return View();
         }
 
@@ -29,13 +28,15 @@ namespace PresentationLayer.Controllers
                 var mapperInDto = new MapperConfiguration(cfg => cfg.CreateMap<UserDataViewModel, UserDataDTO>()).CreateMapper();
                 var mapperInView = new MapperConfiguration(cfg => cfg.CreateMap<UserDataDTO, UserDataViewModel>()
                 .ForMember("PointList", opt => opt.Ignore())).CreateMapper();
+
                 UserDataDTO saveUserData = mapperInDto.Map<UserDataViewModel, UserDataDTO>(userDataViewModel);
 
                 saveUserData = buildingService.GetGraphic(saveUserData);
+
                 userDataViewModel = mapperInView.Map<UserDataDTO, UserDataViewModel>(saveUserData);
-                
+                //Ручная перепись точек
                 ICollection<PointViewModel> pointViewModelList = new List<PointViewModel>();
-                foreach(PointDTO pointDTO in saveUserData.PointList)
+                foreach (PointDTO pointDTO in saveUserData.PointList)
                 {
                     pointViewModelList.Add(new PointViewModel()
                     {
@@ -48,7 +49,6 @@ namespace PresentationLayer.Controllers
 
             return View("Building", userDataViewModel);
         }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
