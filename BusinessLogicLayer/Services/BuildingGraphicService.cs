@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.Services
         {
             UserData saveUserData;
             List<UserData> usersTempData;
-            //вытащил
+            //          
             usersTempData = Database.UserDatasRepository.Find( u => u.CoefficientSecondDegrees == userDataDTO.CoefficientSecondDegrees 
             && u.CoefficientFirstDegrees == userDataDTO.CoefficientFirstDegrees
             && u.CoefficientZeroDegrees == userDataDTO.CoefficientZeroDegrees
@@ -85,7 +85,8 @@ namespace BusinessLogicLayer.Services
                 throw new ValidationException("get graphic err", "");
             }
 
-            return ConvertUserDataInUserDataDto(saveUserData);
+            userDataDTO = ConvertUserDataInUserDataDto(saveUserData);
+            return userDataDTO;
         }
 
         public IEnumerable<UserDataDTO> GetGraphics()
@@ -102,7 +103,7 @@ namespace BusinessLogicLayer.Services
         {
             PointDTO pointDTO = new PointDTO();
             pointDTO.PointX = point.PointX;
-            pointDTO.PointX = point.PointY;
+            pointDTO.PointY = point.PointY;
             return pointDTO;
         }
         private UserDataDTO ConvertUserDataInUserDataDto(UserData userData)
@@ -115,25 +116,17 @@ namespace BusinessLogicLayer.Services
             userDataDTO.RangeTo = userData.RangeTo;
             userDataDTO.Step = userData.Step;
 
-            ICollection<PointDTO> PointList = new List<PointDTO>();
+            IList<PointDTO> newPointList = new List<PointDTO>();
+            PointDTO newPointDto;
+
             foreach (Point point in userData.PointList)
             {
-                PointList.Add(ConvertPointInPointDto(point));
+                newPointDto = ConvertPointInPointDto(point);
+                newPointList.Add(newPointDto);
             }
 
-            userDataDTO.PointList = PointList;
+            userDataDTO.PointList = newPointList;
             return userDataDTO;
         }
     }
 }
-
-/*
-new UserData
-                {
-                    CoefficientSecondDegrees = userDataDTO.CoefficientSecondDegrees,
-                    CoefficientFirstDegrees = userDataDTO.CoefficientFirstDegrees,
-                    CoefficientZeroDegrees = userDataDTO.CoefficientZeroDegrees,
-                    RangeFrom = userDataDTO.RangeFrom,
-                    RangeTo = userDataDTO.RangeTo,
-                    Step = userDataDTO.Step
-                } */ 

@@ -17,37 +17,36 @@ namespace PresentLayer.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
         public ActionResult Index(UserDataViewModel userDataViewModel)
         {
             if (ModelState.IsValid)
-            {
-                var mapperInDto = new MapperConfiguration(cfg => cfg.CreateMap<UserDataViewModel, UserDataDTO>()).CreateMapper();
-                var mapperInView = new MapperConfiguration(cfg => cfg.CreateMap<UserDataDTO, UserDataViewModel>()
-                .ForMember("PointList", opt => opt.Ignore())).CreateMapper();
-
-                UserDataDTO saveUserData = mapperInDto.Map<UserDataViewModel, UserDataDTO>(userDataViewModel);
-
+            {         
+                UserDataDTO saveUserData = ConvertUserDataViewModelInDTO(userDataViewModel);
                 saveUserData = buildingService.GetGraphic(saveUserData);
-
-                userDataViewModel = mapperInView.Map<UserDataDTO, UserDataViewModel>(saveUserData);
-                //Ручная перепись точек
-                ICollection<PointViewModel> pointViewModelList = new List<PointViewModel>();
-                foreach (PointDTO pointDTO in saveUserData.PointList)
-                {
-                    pointViewModelList.Add(new PointViewModel()
-                    {
-                        PointX = pointDTO.PointX,
-                        PointY = pointDTO.PointY
-                    });
-                }
-                userDataViewModel.PointList = pointViewModelList;
+                userDataViewModel = ConvertUserDataDtoInViewModel(saveUserData);
+            }
+            else
+            {
+                return PartialView("ErrorPartial");
             }
 
-            return View("Building", userDataViewModel);
+            //немного костыликовэ
+            IList<PointViewModel> listik = userDataViewModel.PointList;
+            string stringaX = null,
+                stringaY = null;
+            foreach(PointViewModel pointViewModel in listik)
+            {
+                stringaX += pointViewModel.PointX + ", ";
+                stringaY += pointViewModel.PointY + ", ";
+            }
+            ViewBag.x = stringaX;
+            ViewBag.y = stringaY;
+
+            return PartialView("IndexPartial");
         }
         public ActionResult About()
         {
@@ -55,12 +54,38 @@ namespace PresentLayer.Controllers
 
             return View();
         }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        private UserDataDTO ConvertUserDataViewModelInDTO(UserDataViewModel userDataViewModel)
+        {
+            var mapperInDto = new MapperConfiguration(cfg => cfg.CreateMap<UserDataViewModel, UserDataDTO>()
+            .ForMember("PointList", opt => opt.Ignore())).CreateMapper();           
+
+            UserDataDTO userDataDTO = mapperInDto.Map<UserDataViewModel, UserDataDTO>(userDataViewModel);
+            return userDataDTO;
+        }
+        private UserDataViewModel ConvertUserDataDtoInViewModel(UserDataDTO userDataDTO)
+        {
+            var mapperInView = new MapperConfiguration(cfg => cfg.CreateMap<UserDataDTO, UserDataViewModel>()
+            .ForMember("PointList", opt => opt.Ignore())).CreateMapper();
+            UserDataViewModel userDataViewModel = mapperInView.Map<UserDataDTO, UserDataViewModel>(userDataDTO);
+            
+            //Ручная перепись точек
+            IList<PointViewModel> pointViewModelList = new List<PointViewModel>();
+            foreach (PointDTO pointDTO in userDataDTO.PointList)
+            {
+                pointViewModelList.Add(new PointViewModel()
+                {
+                    PointX = pointDTO.PointX,
+                    PointY = pointDTO.PointY
+                });
+            }
+            userDataViewModel.PointList = pointViewModelList;
+            return userDataViewModel;
         }
     }
 }

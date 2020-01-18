@@ -13,7 +13,7 @@ namespace DataAccessLayer.Models
         public int CoefficientSecondDegrees { get; set; }
         public int CoefficientFirstDegrees { get; set; }
         public int CoefficientZeroDegrees { get; set; }
-        public ICollection<Point> PointList { get; set; }
+        public IList<Point> PointList { get; set; }
 
         public UserData()
         {
