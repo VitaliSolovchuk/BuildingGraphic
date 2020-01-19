@@ -17,9 +17,9 @@ namespace PresentLayer.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Message = "Красивое приложение";
             return View("Index");
         }
-
         [HttpPost]
         public ActionResult Index(UserDataViewModel userDataViewModel)
         {
@@ -34,31 +34,46 @@ namespace PresentLayer.Controllers
                 return PartialView("ErrorPartial");
             }
 
-            //немного костыликовэ
-            IList<PointViewModel> listik = userDataViewModel.PointList;
-            string stringaX = null,
-                stringaY = null;
-            foreach(PointViewModel pointViewModel in listik)
-            {
-                stringaX += pointViewModel.PointX + ", ";
-                stringaY += pointViewModel.PointY + ", ";
-            }
+            string stringaX,stringaY;
+            AlterationPointListInTwoString(userDataViewModel.PointList, out stringaX, out stringaY);
+
             ViewBag.x = stringaX;
             ViewBag.y = stringaY;
-
+            ViewBag.Message = "Вот ваш график:";
             return PartialView("IndexPartial");
         }
+        
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            IEnumerable<UserDataDTO> saveUserData;
+            saveUserData = buildingService.GetGraphics();
+            IList<UserDataViewModel> userDataViewModel = new List<UserDataViewModel>();
+            foreach(UserDataDTO userDataDTO in saveUserData)
+            {
+                userDataViewModel.Add(ConvertUserDataDtoInViewModel(userDataDTO));
+            }
+            
+            ViewBag.Message = "You have opportunity visualize graph by dint of my application.";
+            return View("About",userDataViewModel);
         }
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        
+        private void AlterationPointListInTwoString(IList<PointViewModel> pointsViewModels, out string stringaX, out string stringaY)
+        {
+            stringaX = null;
+            stringaY = null;
+            foreach (PointViewModel pointViewModel in pointsViewModels)
+            {
+                stringaX += pointViewModel.PointX + ", ";
+                stringaY += pointViewModel.PointY + ", ";
+            }
+
         }
         private UserDataDTO ConvertUserDataViewModelInDTO(UserDataViewModel userDataViewModel)
         {

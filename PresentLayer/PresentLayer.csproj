@@ -207,6 +207,7 @@
     <Content Include="Views\Home\ErrorPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IndexPartial.cshtml" />
+    <Content Include="Views\Home\Listing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

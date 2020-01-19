@@ -83,9 +83,9 @@ namespace PresentLayer.Tests.Controllers
         public void Building()
         {
             // Act
-            ViewResult result = controller.Index(userDataViewModelInput) as ViewResult;
+            PartialViewResult result = controller.Index(userDataViewModelInput) as PartialViewResult;
             // Assert
-            Assert.IsNotNull(result.Model);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
