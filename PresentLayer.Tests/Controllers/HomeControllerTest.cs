@@ -5,33 +5,85 @@ using BusinessLogicLayer.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PresentLayer.Controllers;
-
+using PresentLayer.Models;
 
 namespace PresentLayer.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
-
         Mock<IBuildingGraphicService> mock;
+        HomeController controller;
+        
+        UserDataViewModel userDataViewModelInput;
+        UserDataViewModel userDataViewModelOutput;
+        List<PointViewModel> listPointViewModel;
 
-        [TestInitialize]
+        UserDataDTO userDataDtoOut;
+        List<PointDTO> listPointDTO;
+
+       [TestInitialize]
         public void SetupService()
         {
+            // Arrange
+            userDataViewModelInput = new UserDataViewModel()
+            {
+                CoefficientSecondDegrees = 0,
+                CoefficientFirstDegrees = 0,
+                CoefficientZeroDegrees = 1,
+                RangeFrom = 1,
+                RangeTo = 2,
+                Step = 1
+            };
+
+            listPointViewModel = new List<PointViewModel>(); 
+            listPointViewModel.Add(new PointViewModel() { PointX = 1, PointY = 1 });
+            listPointViewModel.Add(new PointViewModel() { PointX = 2, PointY = 1 });
+            userDataViewModelOutput = new UserDataViewModel()
+            {
+                CoefficientSecondDegrees = 0,
+                CoefficientFirstDegrees = 0,
+                CoefficientZeroDegrees = 1,
+                RangeFrom = 1,
+                RangeTo = 2,
+                Step = 1,
+                PointList = listPointViewModel
+            };
+
+            listPointDTO = new List<PointDTO>();
+            listPointDTO.Add(new PointDTO() { PointX = 1, PointY = 1 });
+            listPointDTO.Add(new PointDTO() { PointX = 2, PointY = 1 });
+            userDataDtoOut = new UserDataDTO()
+            {
+                CoefficientSecondDegrees = 0,
+                CoefficientFirstDegrees = 0,
+                CoefficientZeroDegrees = 1,
+                RangeFrom = 1,
+                RangeTo = 2,
+                Step = 1,
+                PointList = listPointDTO
+            };
+
             mock = new Mock<IBuildingGraphicService>();
-            mock.Setup(a => a.GetGraphic(new UserDataDTO()))
-                .Returns(new UserDataDTO() { PointList = new List<PointDTO>() });
+            mock.Setup(a => a.GetGraphic(userDataDtoOut))
+                .Returns(userDataDtoOut);
+
+            controller = new HomeController(mock.Object);
         }
         [TestMethod]
         public void Index()
         {
-   
-            // Arrange
-            HomeController controller = new HomeController(mock.Object);
-
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
+            // Assert
+            Assert.IsNotNull(result);
+        }
+        [TestMethod]
+        public void Building()
+        {
+            // Act
+            PartialViewResult result = controller.Index(userDataViewModelInput) as PartialViewResult;
             // Assert
             Assert.IsNotNull(result);
         }
@@ -39,9 +91,6 @@ namespace PresentLayer.Tests.Controllers
         [TestMethod]
         public void About()
         {
-            // Arrange
-            HomeController controller = new HomeController(mock.Object);
-
             // Act
             ViewResult result = controller.About() as ViewResult;
 
@@ -52,9 +101,6 @@ namespace PresentLayer.Tests.Controllers
         [TestMethod]
         public void Contact()
         {
-            // Arrange
-            HomeController controller = new HomeController(mock.Object);
-
             // Act
             ViewResult result = controller.Contact() as ViewResult;
 

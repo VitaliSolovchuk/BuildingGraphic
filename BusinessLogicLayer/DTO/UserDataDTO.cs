@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.DTO
         public int CoefficientSecondDegrees { get; set; }
         public int CoefficientFirstDegrees { get; set; }
         public int CoefficientZeroDegrees { get; set; }
-        public ICollection<PointDTO> PointList { get; set; }
+        public IList<PointDTO> PointList { get; set; }
 
     }
 }

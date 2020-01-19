@@ -34,9 +34,9 @@ namespace BusinessLogicLayer.Services
         public UserDataDTO GetGraphic(UserDataDTO userDataDTO)
         {
             UserData saveUserData;
-            List<UserData> usersTempData;
-            //вытащил
-            usersTempData = Database.UserDatasRepository.Find( u => u.CoefficientSecondDegrees == userDataDTO.CoefficientSecondDegrees 
+            List<UserData> userLoadData;
+            //          
+            userLoadData = Database.UserDatasRepository.Find( u => u.CoefficientSecondDegrees == userDataDTO.CoefficientSecondDegrees 
             && u.CoefficientFirstDegrees == userDataDTO.CoefficientFirstDegrees
             && u.CoefficientZeroDegrees == userDataDTO.CoefficientZeroDegrees
             && u.RangeFrom == userDataDTO.RangeFrom
@@ -44,24 +44,25 @@ namespace BusinessLogicLayer.Services
             && u.Step == userDataDTO.Step);
 
             //проверить
-            if (usersTempData.Count == 0)
+            if (userLoadData.Count == 0)
             {
                 
                 userDataDTO = MakeGraphic(userDataDTO); //create data 
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDataDTO, UserData>()
                 .ForMember("PointList", opt => opt.Ignore())).CreateMapper();
                 saveUserData = mapper.Map<UserDataDTO, UserData>(userDataDTO);
+
                 Database.UserDatasRepository.Create(saveUserData);
                 Database.Save();//save graphic
 
-                usersTempData = Database.UserDatasRepository.Find(u => u.CoefficientSecondDegrees == userDataDTO.CoefficientSecondDegrees
+                userLoadData = Database.UserDatasRepository.Find(u => u.CoefficientSecondDegrees == userDataDTO.CoefficientSecondDegrees
                 && u.CoefficientFirstDegrees == userDataDTO.CoefficientFirstDegrees
                 && u.CoefficientZeroDegrees == userDataDTO.CoefficientZeroDegrees
                 && u.RangeFrom == userDataDTO.RangeFrom
                 && u.RangeTo == userDataDTO.RangeTo
                 && u.Step == userDataDTO.Step);
 
-                saveUserData = usersTempData[0]; // get ID
+                saveUserData = userLoadData[0]; // get ID
 
                 foreach (PointDTO pointDTO in userDataDTO.PointList)
                 {
@@ -76,20 +77,33 @@ namespace BusinessLogicLayer.Services
 
                 saveUserData = Database.UserDatasRepository.Get(saveUserData.Id);
             }
-            else if(usersTempData.Count == 1)
+            else if(userLoadData.Count == 1)
             {
-                saveUserData = usersTempData[0];
+                saveUserData = userLoadData[0];
             }
             else
             {
                 throw new ValidationException("get graphic err", "");
             }
 
-            return ConvertUserDataInUserDataDto(saveUserData);
+            userDataDTO = ConvertUserDataInUserDataDto(saveUserData);
+            return userDataDTO;
         }
 
         public IEnumerable<UserDataDTO> GetGraphics()
         {
+            IEnumerable<UserData> usersLoadDatas;
+            usersLoadDatas = Database.UserDatasRepository.GetAll();
+            if (usersLoadDatas != null)
+            {
+                IList<UserDataDTO> userSaveDatas = new List<UserDataDTO>();
+                foreach (UserData userData in usersLoadDatas)
+                {
+                    userSaveDatas.Add(ConvertUserDataInUserDataDto(userData));
+                }
+                return userSaveDatas;
+            }
+
             throw new System.NotImplementedException();
         }
 
@@ -102,7 +116,7 @@ namespace BusinessLogicLayer.Services
         {
             PointDTO pointDTO = new PointDTO();
             pointDTO.PointX = point.PointX;
-            pointDTO.PointX = point.PointY;
+            pointDTO.PointY = point.PointY;
             return pointDTO;
         }
         private UserDataDTO ConvertUserDataInUserDataDto(UserData userData)
@@ -115,25 +129,17 @@ namespace BusinessLogicLayer.Services
             userDataDTO.RangeTo = userData.RangeTo;
             userDataDTO.Step = userData.Step;
 
-            ICollection<PointDTO> PointList = new List<PointDTO>();
+            IList<PointDTO> newPointList = new List<PointDTO>();
+            PointDTO newPointDto;
+
             foreach (Point point in userData.PointList)
             {
-                PointList.Add(ConvertPointInPointDto(point));
+                newPointDto = ConvertPointInPointDto(point);
+                newPointList.Add(newPointDto);
             }
 
-            userDataDTO.PointList = PointList;
+            userDataDTO.PointList = newPointList;
             return userDataDTO;
         }
     }
 }
-
-/*
-new UserData
-                {
-                    CoefficientSecondDegrees = userDataDTO.CoefficientSecondDegrees,
-                    CoefficientFirstDegrees = userDataDTO.CoefficientFirstDegrees,
-                    CoefficientZeroDegrees = userDataDTO.CoefficientZeroDegrees,
-                    RangeFrom = userDataDTO.RangeFrom,
-                    RangeTo = userDataDTO.RangeTo,
-                    Step = userDataDTO.Step
-                } */ 
